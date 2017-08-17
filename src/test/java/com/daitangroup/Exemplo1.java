@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -128,10 +129,10 @@ public class Exemplo1 {
 		optional = collect.parallelStream().filter(x -> x > 0.9).findAny();
 		System.out.println(optional.get());
 	}
-	
+
 	@Test
 	@Ignore
-	public void anyAllNoneMatch(){
+	public void anyAllNoneMatch() {
 		List<Double> collect = Stream.generate(Math::random).limit(100000).collect(Collectors.toList());
 
 		boolean anyMatch = collect.stream().anyMatch(x -> x < 0.03);
@@ -139,12 +140,48 @@ public class Exemplo1 {
 
 		boolean allMatch = collect.stream().allMatch(x -> x < 1);
 		System.out.println(allMatch);
-		
+
 		boolean noneMatch = collect.stream().noneMatch(x -> x > 1);
 		System.out.println(noneMatch);
 	}
 
+	@Test
+	@Ignore
+	public void optional() {
 
+		// Optional<String> optionalString = Optional.<String>empty();
+		Optional<String> optionalString = Optional.<String>of("some value");
+
+		if (optionalString.isPresent()) {
+			System.out.println(optionalString.get());
+		}
+
+		optionalString.ifPresent(System.out::println);
+
+		List<String> list = new ArrayList<>();
+		optionalString.ifPresent(list::add);
+
+		System.out.println(list.size());
+	}
+
+	@Test
+	@Ignore
+	public void optionalOrElse() {
+
+		Optional<String> optionalString = Optional.<String>empty();
+		String orElse = optionalString.orElse("bla");
+
+		System.out.println(orElse);
+		String orElseGet = optionalString.orElseGet(() -> System.getProperty("user.dir"));
+
+		System.out.println(orElseGet);
+		try {
+			optionalString.orElseThrow(IllegalArgumentException::new);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	// @Test
 	// @Ignore
 	// public void countWords() {
