@@ -9,7 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Ignore;
@@ -81,22 +85,65 @@ public class Exemplo1 {
 	}
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void distinctSorted() {
 		Stream<Integer> stream = Arrays.asList(1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3).stream();
 
 		stream.distinct().forEach(System.out::println);
 
-		System.out.println("------------");		
-		stream = Arrays.asList(1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3).stream();		
-		stream.distinct().sorted(Comparator.comparing(Function.<Integer> identity()).reversed()).forEach(System.out::println);
-		
-		System.out.println("------------");		
-		Stream<String> stream2 = asList("Meu pé de laraja lima".split(" ")).stream();		
+		System.out.println("------------");
+		stream = Arrays.asList(1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3).stream();
+		stream.distinct().sorted(Comparator.comparing(Function.<Integer>identity()).reversed())
+				.forEach(System.out::println);
+
+		System.out.println("------------");
+		Stream<String> stream2 = asList("Meu pé de laraja lima".split(" ")).stream();
 		stream2.sorted(Comparator.comparing(String::length).reversed()).forEach(System.out::println);
-		
 
 	}
+
+	@Test
+	@Ignore
+	public void countMaxMin() {
+		Stream<Integer> stream = Arrays.asList(1, 2, 3, 123, 55555, 23123, 13213, 23123, 111, 3).stream();
+		System.out.println("------------");
+		System.out.println(stream.count());
+
+		stream = Arrays.asList(1, 2, 3, 123, 55555, 23123, 13213, 23123, 111, 3).stream();
+		System.out.println(stream.max(Comparator.naturalOrder()).get());
+
+		stream = Arrays.asList(1, 2, 3, 123, 55555, 23123, 13213, 23123, 111, 3).stream();
+		System.out.println(stream.min(Comparator.naturalOrder()).get());
+
+	}
+
+	@Test
+	@Ignore
+	public void findFirstFindAny() {
+		List<Double> collect = Stream.generate(Math::random).limit(100000).collect(Collectors.toList());
+
+		Optional<Double> optional = collect.stream().filter(x -> x > 0.9).findFirst();
+		System.out.println(optional.get());
+
+		optional = collect.parallelStream().filter(x -> x > 0.9).findAny();
+		System.out.println(optional.get());
+	}
+	
+	@Test
+	@Ignore
+	public void anyAllNoneMatch(){
+		List<Double> collect = Stream.generate(Math::random).limit(100000).collect(Collectors.toList());
+
+		boolean anyMatch = collect.stream().anyMatch(x -> x < 0.03);
+		System.out.println(anyMatch);
+
+		boolean allMatch = collect.stream().allMatch(x -> x < 1);
+		System.out.println(allMatch);
+		
+		boolean noneMatch = collect.stream().noneMatch(x -> x > 1);
+		System.out.println(noneMatch);
+	}
+
 
 	// @Test
 	// @Ignore
