@@ -60,7 +60,7 @@ public class Exemplo1 {
 	@Ignore
 	public void mapExample() {
 		String[] strings = "meu pé de laranja lima".split(" ");
-		Stream.of(strings).map(x -> x.toString().toUpperCase()).forEach(System.out::print);
+		Stream.of(strings).map(x -> x.toUpperCase()).forEach(System.out::print);
 	}
 
 	@Test
@@ -94,12 +94,11 @@ public class Exemplo1 {
 
 		System.out.println("------------");
 		stream = Arrays.asList(1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3).stream();
-		stream.distinct().sorted(Comparator.comparing(Function.<Integer>identity()).reversed())
-				.forEach(System.out::println);
+		stream.distinct().sorted(Comparator.reverseOrder()).forEach(System.out::println);
 
 		System.out.println("------------");
 		Stream<String> stream2 = asList("Meu pé de laraja lima".split(" ")).stream();
-		stream2.sorted(Comparator.comparing(String::length).reversed()).forEach(System.out::println);
+		stream2.map(String::toLowerCase).sorted(Comparator.naturalOrder()).forEach(System.out::println);
 
 	}
 
