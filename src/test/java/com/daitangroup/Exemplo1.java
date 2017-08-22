@@ -181,6 +181,21 @@ public class Exemplo1 {
 		}
 
 	}
+
+	@Test
+	@Ignore
+	public void reduce() {
+		Stream<Integer> stream = Arrays.asList(1, 2, 3, 4, 5, 6).stream();
+
+		Optional<Integer> reduce = stream.reduce((x, y) -> x + y);
+		reduce.ifPresent(System.out::println);
+
+		stream = Arrays.asList(1, 2, 3, 4, 5, 6).stream();
+
+		Integer i = stream.reduce(5, (x, y) -> x + y);
+		System.out.println(i);
+
+	}
 	// @Test
 	// @Ignore
 	// public void countWords() {
