@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -196,6 +198,60 @@ public class Exemplo1 {
 		System.out.println(i);
 
 	}
+
+	@Test
+	@Ignore
+	public void collect() {
+		List<String> list = Arrays.asList("1", "2", "3", "4", "5", "6");
+		Stream<String> stream = list.stream();
+
+		Long collect = stream.mapToLong(Long::parseLong).sum();
+		System.out.println(collect);
+
+		stream = list.stream();
+		System.out.println(stream.collect(Collectors.joining(" | ")));
+
+		String[] arr = { "4", "5", "6", "1", "2", "3" };
+		stream = Arrays.stream(arr);
+		System.out.println(stream.collect(Collectors.toList()));
+
+		stream = Arrays.stream(arr);
+		System.out.println(stream.collect(Collectors.toSet()));
+
+		stream = Arrays.stream(arr);
+		System.out.println(stream.collect(Collectors.toCollection(TreeSet::new)));
+
+	}
+
+	private static class Person {
+		public String name;
+		public Integer id;
+
+		public Person(String name, Integer id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		String getName() {
+			return name;
+		}
+		Integer getId() {
+			return id;
+		}
+	}
+
+	@Test
+	@Ignore
+	public void collectToMap() {
+		Person[] people = {new Person("joao", 1),new Person("paulo", 2),new Person("daniel", 3)};
+		
+		Map<Integer, String> map = Arrays.stream(people).collect(Collectors.toMap(Person::getId, Person::getName));
+		map.entrySet().stream().forEach(System.out::println);
+		
+			
+		
+	}
+
 	// @Test
 	// @Ignore
 	// public void countWords() {
