@@ -114,7 +114,8 @@ local.properties
 .scala_dependencies
 .worksheet
 
-.gitignore
 .idea/
 src/main/java/
 *.iml
+/.classpath
+/.project
